@@ -25,7 +25,7 @@ int main(void) {
         0x00,0x04,'t','e','s','t'
     };
     static const unsigned char publish_expected[] = {
-        0x30,0x08,0x00,0x03,'a','/','b','h','e','l','l','o'
+        0x30,0x0a,0x00,0x03,'a','/','b','h','e','l','l','o'
     };
     static const unsigned char connack_ok[] = {0x20,0x02,0x00,0x00};
 

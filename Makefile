@@ -1,7 +1,7 @@
 HOST_CC ?= cc
 AMIGA_CC ?= m68k-amigaos-gcc
 CFLAGS ?= -std=c89 -Wall -Wextra -Werror -pedantic -Iinclude -Isrc
-AMIGA_CFLAGS ?= -m68000 -Os -std=c89 -Wall -Wextra -Iinclude -Isrc
+AMIGA_CFLAGS ?= -m68000 -Os -std=gnu99 -Wall -Wextra -Iinclude -Isrc
 
 HOST_TEST = build/test_protocol
 AMIGA_BIN = build/AmiMQTT

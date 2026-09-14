@@ -4,37 +4,34 @@ Lightweight MQTT client infrastructure for classic Amiga systems.
 
 AmiMQTT targets AmigaOS 2.04+ and Motorola 68000-class systems first, with a deliberately small footprint and MQTT 3.1.1 as the initial protocol target. The project is intended both as a standalone command-line client and as reusable infrastructure for ARexx-enabled Amiga applications, Home Assistant, BBS software, monitoring tools, and other network-aware software.
 
-## M0 goals
+## Current status
 
-M0 establishes the project foundation only. It does not claim working MQTT networking yet.
+M0 foundation is complete. M1 now provides a minimal MQTT 3.1.1 protocol core with CONNECT encoding, CONNACK parsing, QoS 0 PUBLISH encoding, host packet-vector tests, a transport abstraction, and a native 68000 build target. Visible FS-UAE runtime qualification remains pending before M1 is considered fully qualified.
 
-- AmigaOS 2.04+ baseline
-- Motorola 68000 baseline
-- Bebbo `m68k-amigaos-gcc` toolchain
-- repository/build/test skeleton
-- public C API boundary
-- protocol and transport separation
-- documented MQTT 3.1.1 roadmap
-- ARexx and Home Assistant integration planned, not yet implemented
-- conservative security model for inbound control
+## Baseline
 
-## Planned command-line shape
+- AmigaOS 2.04+
+- Motorola 68000
+- Bebbo `m68k-amigaos-gcc`
+- MQTT 3.1.1
+- QoS 0 first
 
-Future milestones are expected to grow toward commands such as:
+## M1 commands
+
+The current native CLI exposes packet generation for qualification and debugging:
 
 ```text
-AmiMQTT CONNECT broker.example 1883
-AmiMQTT PUB amiga/a1200/status online
-AmiMQTT SUB amiga/a1200/command
+AmiMQTT encode-connect <client-id> [keepalive]
+AmiMQTT encode-publish <topic> <payload>
 ```
 
-The exact CLI is not frozen at M0.
+Network lifecycle wiring through Amiga `bsdsocket.library` remains part of M1 runtime completion and must be qualified on the target environment.
 
 ## Design principles
 
 1. **Classic-first** — 68000 and AmigaOS 2.04+ remain first-class constraints.
 2. **Small protocol core** — implement only the MQTT features needed by each milestone.
-3. **Transport separation** — MQTT packet handling should not depend on a single TCP/IP stack implementation.
+3. **Transport separation** — MQTT packet handling does not depend on a single TCP/IP stack implementation.
 4. **ARexx-friendly** — ARexx integration is a first-class roadmap item.
 5. **Safe inbound control** — remote commands will be opt-in and allowlisted. Arbitrary ARexx execution over MQTT will never be the default.
 6. **Home Assistant friendly** — MQTT Discovery support is planned after the core protocol is proven.
@@ -51,15 +48,20 @@ tools/               repository checks
 docs/                design and qualification documents
 ```
 
-## Build
-
-M0 includes a host-side foundation check:
+## Build and checks
 
 ```sh
+make clean
 make check
 ```
 
-The native Amiga build target is intentionally introduced once executable source exists in M1.
+Native 68000 build:
+
+```sh
+make amiga
+```
+
+See `docs/M1_STATUS.md` for qualification status.
 
 ## Roadmap
 
